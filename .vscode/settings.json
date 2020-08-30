@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "intctrl_lcfg.h": "c",
+        "std_types.h": "c"
+    }
+}
