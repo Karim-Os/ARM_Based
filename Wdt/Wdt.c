@@ -1,8 +1,8 @@
 /**********************************************************************************************************************
  *  FILE DESCRIPTION
  *  -----------------------------------------------------------------------------------------------------------------*/
-/**        \file  IntCtrl_Lcfg.c
- *        \brief  Represents the Dynamic Part "user-defined" of Interrupt Controller
+/**        \file  Wdt.c
+ *        \brief  Represents the Static Part of Watchdog timer
  *
  *      \details  
  *
@@ -13,11 +13,12 @@
  *  INCLUDES
  *********************************************************************************************************************/
 #include "Std_Types.h"
-#include "IntCtrl_Lcfg.h"
+#include "Wdt.h"
+#include "Common.h"
 /**********************************************************************************************************************
 *  LOCAL MACROS CONSTANT\FUNCTION
 *********************************************************************************************************************/
-
+#define IN_PROGRESS 1
 /**********************************************************************************************************************
  *  LOCAL DATA 
  *********************************************************************************************************************/
@@ -25,16 +26,12 @@
 /**********************************************************************************************************************
  *  GLOBAL DATA
  *********************************************************************************************************************/
-/*Container for User Data*/
-USER_DATA g_user_data= 
-{
-	//Set the Groups - Sub Groups
-	aUSER_DATA[0]=
-}
+uint32_t Wdt_Max_Timeout =0;
+uint32_t Wdt_Initial_Timeout =0;
 /**********************************************************************************************************************
  *  LOCAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/
-
+Wdt_Cb Wdg_Cb;
 /**********************************************************************************************************************
  *  LOCAL FUNCTIONS
  *********************************************************************************************************************/
@@ -44,41 +41,82 @@ USER_DATA g_user_data=
  *********************************************************************************************************************/
 
 
+/**********************************************************************************************************************
+ *  APIs
+ *********************************************************************************************************************/
+
+
+
 /******************************************************************************
-* \Syntax          : void Interrupt_Set_and_Cfg(uint8_t int_num,uint8_t pri_group)
-* \Description     : Takes the input arguments and enable their exception     
+* \Syntax          : void Wdg_Init ( const Wdg_ConfigType* ConfigPtr )
+* \Description     : initialize Wdt Module by parsing the Configuration 
+*                    into wdt registers                                    
+*                                                                             
 * \Sync\Async      : Synchronous                                               
 * \Reentrancy      : Non Reentrant                                             
-* \Parameters (in) : int_num     Exception Number in vector Table index                                                       
-* \Parameters (in) : pri_group   group priority for this Exception                                                       
+* \Parameters (in) : ConfigPtr: pointer to user configurations                     
+* \Parameters (out): None                                                      
+* \Return value:   : None
 *******************************************************************************/
-
-
-void Interrupt_Set_and_Cfg(uint8_t int_num,uint8_t pri_group)
+void Wdg_Init ( const Wdg_ConfigType* ConfigPtr )
 {
-    if((int_num < MAX_INTERRUPT) || (pri_group < MAX_PRI_GROUP_VAL) )
-    {
-        g_user_data.aUSER_DATA[int_num].B.INT_STATE=ENABLED;
-        g_user_data.aUSER_DATA[int_num].B.PRI_GRP = pri_group;
+    if (NULL != ConfigPtr)
+    {   
+        /*Enable WDT1*/
+        RCGCWD->B.R1=1;
+        /*Setting Interrupt Type*/
+        WDTCTL->B.INTEN = ConfigPtr->InterruptType;
+        /*Setting WDT Initial WDT values Could be used to reset the timer by using Wdg_SetTriggerCondition */
+        Wdt_Initial_Timeout = ConfigPtr->WdgInitialTimeout;
+        /*Setting WDT Max WDT values*/
+        Wdt_Max_Timeout = ConfigPtr->WdgMaxTimeout;
     }
     else
     {
-//        printf("Invalid Arguments, Func %s, line %d \r\n",__func__ , __LINE__);
+        /* Invalid Argument !!! */
     }
-    
-}
-/******************************************************************************
-* \Syntax          : void Groups_Cfg(Group_SubgroupType type)        
-* \Description     : Set the Groups-Sub-Groups Priorities                                                         
-* \Sync\Async      : Synchronous                                               
-* \Reentrancy      : Reentrant                                             
-* \Parameters (in) : type   Group-Subgroup set, please refer to Group_SubgroupType for more info                                                       
-*******************************************************************************/
-void Groups_Cfg(Group_SubgroupType type)
-{
-   g_user_data.groupspriority_config = type;
+    Wdg_Cb = ConfigPtr->NotificationEN;
 }
 
+/******************************************************************************
+* \Syntax          : void Wdg_SetTriggerCondition ( uint16 timeout )
+* \Description     : initialize Wdt Module by parsing the Configuration 
+*                    into wdt registers                                    
+*                                                                             
+* \Sync\Async      : Synchronous                                               
+* \Reentrancy      : Non Reentrant                                             
+* \Parameters (in) : timeout : set watchdog timeout value                      
+* \Parameters (out): None                                                      
+* \Return value:   : None
+*******************************************************************************/
+void Wdg_SetTriggerCondition ( uint16_t timeout )
+{
+    #warning Convert time into Ticks before setting it to the Registers
+    if (Wdt_Max_Timeout >= timeout)
+    {
+        WDTLOAD = timeout;
+        /*Wait for the Module to be ready*/
+        while(IN_PROGRESS==WDTCTL->B.WRC);
+        /*Enable Resetting */
+        WDTCTL->B.RESEN = ENABLED;
+        /*Wait for the Module to be ready*/
+        while(IN_PROGRESS==WDTCTL->B.WRC);
+        /*Enable WDT*/
+        WDTCTL->B.INTEN = ENABLED;
+    }
+    else
+    {
+        /* Timeout value Exceeds the Max Value*/
+    }
+}
+
+/*******************************************************************************/
+/*Implement IRQ of the Function*/
+/*******************************************************************************/
+void WDT0_Handler (void)
+{
+    Wdg_Cb();
+}
 /**********************************************************************************************************************
- *  END OF FILE: IntCtrl_Lcfg.c
+ *  END OF FILE: Wdt.c
  *********************************************************************************************************************/

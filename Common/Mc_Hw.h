@@ -17,7 +17,28 @@
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
 
-#define PER_BASE_ADD  0xE000E000
+#define PER_BASE_ADD  			0xE000E000
+#define SYS_CTRL_BASE_ADD		0x400FE000
+
+
+
+/*********/
+/**MASKS**/
+/*********/
+#define WDT1_MASK	5
+#define SW_MASK		4
+#define WDT0_MASK	3
+#define BOR_MASK	2
+#define POR_MASK	1
+#define EXT_MASK	0
+#define LOCK_MASK	0
+#define PLLLRIS_MASK	6   
+#define SYSRESREQ_MASK	2
+
+/*********/
+/**KEYS**/
+/********/
+#define VECT_KEY 0x05FA0000
 /*****************/
 /*NVIC Registers */
 /*****************/
@@ -66,6 +87,7 @@
 #define PRI9 *((volatile uint32_t*)(PER_BASE_ADD+0x0424))
 /*Interrupt Priority 40-43 */
 #define PRI10 *((volatile uint32_t*)(PER_BASE_ADD+0x0428))
+#if 0
 /*Interrupt Priority 44-47 */
 #define PRI11 *((volatile uint32_t*)(PER_BASE_ADD+0x042C))
 /*Interrupt Priority 48-51 */
@@ -114,6 +136,7 @@
 #define PRI33 *((volatile uint32_t*)(PER_BASE_ADD+0x0484))
 /*Interrupt Priority 136-138 */
 #define PRI34 *((volatile uint32_t*)(PER_BASE_ADD+0x0488))
+#endif
 /*Software Trigger Interrupt*/
 #define SWTRIG *((volatile uint32_t*)(PER_BASE_ADD+0x0F00))
 /*****************/
@@ -137,8 +160,124 @@
 #define FAULTSTAT *((volatile uint32_t*)(PER_BASE_ADD+0x0D28))
 /* Hard Fault Status */
 #define HFAULTSTAT *((volatile uint32_t*)(PER_BASE_ADD+0x0D2C))
+/****************************/
+/**System Control Registers**/
+/****************************/
 
+#define RESC 		*((volatile uint32_t*)(SYS_CTRL_BASE_ADD+0x005C))
+#define RCC 		((volatile RCC_Tag*)(SYS_CTRL_BASE_ADD+0x0060))
+#define RCC2 		((volatile RCC2_Tag*)(SYS_CTRL_BASE_ADD+ 0x0070))
+#define PLLSTAT *((volatile uint32_t*)(SYS_CTRL_BASE_ADD+ 0x0168))
+#define RCGC0  	((volatile RCGC0_Tag*)(SYS_CTRL_BASE_ADD+ 0x0100))
+#define RCGC1  	((volatile RCGC1_Tag*)(SYS_CTRL_BASE_ADD+ 0x0104))
+#define RCGC2  	((volatile RCGC2_Tag*)(SYS_CTRL_BASE_ADD+ 0x0108))	
+#define RCGCWD  ((volatile RCGCWD_Tag*)(SYS_CTRL_BASE_ADD+ 0x0600))	
+#define RIS     *((volatile uint32_t*)(SYS_CTRL_BASE_ADD+ 0x0050))	
+	
 
+/******************/
+/**GPIO Registers**/
+/******************/
+#ifdef GPIO_APB
+#define GPIO_PORT_A_OFFSET      0x40004000
+#define GPIO_PORT_B_OFFSET      0x40005000
+#define GPIO_PORT_C_OFFSET      0x40006000
+#define GPIO_PORT_D_OFFSET      0x40007000
+#define GPIO_PORT_E_OFFSET      0x40024000
+#define GPIO_PORT_F_OFFSET      0x40025000
+#elif GPIO_AHB
+#define GPIO_PORT_A_OFFSET      0x40058000
+#define GPIO_PORT_B_OFFSET      0x40059000
+#define GPIO_PORT_C_OFFSET      0x4005A000
+#define GPIO_PORT_D_OFFSET      0x4005B000
+#define GPIO_PORT_E_OFFSET      0x4005C000
+#define GPIO_PORT_F_OFFSET      0x4005D000
+#else 
+#error "Please choose a Bus for GPIOs"
+#define GPIO_OFFSET 0x40004000
+#endif 
+#define GPIODATA	*((volatile uint32_t*)(GPIO_OFFSET))	
+#define GPIODIR		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0400))	
+#define GPIOIS		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0404))	
+#define GPIOIBE		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0408))	
+#define GPIOIEV		*((volatile uint32_t*)(GPIO_OFFSET+ 0x040C))	
+#define GPIOIM		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0410))	
+#define GPIORIS		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0414))	
+#define GPIOMIS		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0418))	
+#define GPIOICR		*((volatile uint32_t*)(GPIO_OFFSET+ 0x041C))	
+#define GPIOAFSEL *((volatile uint32_t*)(GPIO_OFFSET+ 0x0420))	
+#define GPIODR2R 	*((volatile uint32_t*)(GPIO_OFFSET+ 0x0500))	
+#define GPIODR4R 	*((volatile uint32_t*)(GPIO_OFFSET+ 0x0504))	
+#define GPIODR8R	*((volatile uint32_t*)(GPIO_OFFSET+ 0x0508))	
+#define GPIOODR 	*((volatile uint32_t*)(GPIO_OFFSET+ 0x050C))	
+#define GPIOPUR		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0510))	
+#define GPIOPDR 	*((volatile uint32_t*)(GPIO_OFFSET+ 0x0514))	
+#define GPIOSLR		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0518))	
+#define GPIODEN 	*((volatile uint32_t*)(GPIO_OFFSET+ 0x051C))	
+#define GPIOLOCK	*((volatile uint32_t*)(GPIO_OFFSET+ 0x0520))	
+#define GPIOCR 		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0524))	
+	
+/******************/
+/** WDT Registers**/
+/******************/
+#ifdef WDT0					
+#define WDT_OFSET 	0x40000000
+#else
+#define WDT_OFFSET  0x40001000
+#endif
+#define WDTLOAD		*((volatile uint32_t*)(WDT_OFFSET + 0x0000))
+#define WDTVALUE	*((volatile uint32_t*)(WDT_OFFSET + 0x0004))
+#define WDTCTL		((volatile WDTCTL_Tag*)(WDT_OFFSET + 0x0008))
+#define WDTICR		*((volatile uint32_t*)(WDT_OFFSET + 0x000C))
+#define WDTRIS		*((volatile uint32_t*)(WDT_OFFSET + 0x0010))
+#define WDTMIS		*((volatile uint32_t*)(WDT_OFFSET + 0x0014))
+#define WDTLOCK   *((volatile uint32_t*)(WDT_OFFSET + 0x0C00))
+
+	
+/******************/
+/** GPT Registers**/
+/******************/
+#define TIMER_0_OFFSET          0x40030000
+#define TIMER_1_OFFSET          0x40031000
+#define TIMER_2_OFFSET          0x40032000
+#define TIMER_3_OFFSET          0x40033000
+#define TIMER_4_OFFSET          0x40034000
+#define TIMER_5_OFFSET          0x40035000          
+#define WIDETIMER_0_OFFSET      0x40036000
+#define WIDETIMER_1_OFFSET      0x40037000
+#define WIDETIMER_2_OFFSET      0x4003C000
+#define WIDETIMER_3_OFFSET      0x4003D000
+#define WIDETIMER_4_OFFSET      0x4003E000
+#define WIDETIMER_5_OFFSET      0x4003F000          
+
+#define GPT_OFFSET          TIMER_0_OFFSET
+#define GPTMCFG		*((volatile uint32_t*)(GPT_OFFSET + 0x0000))
+#define GPTMTAMR	*((volatile uint32_t*)(GPT_OFFSET + 0x0004))
+#define GPTMTBMR	*((volatile uint32_t*)(GPT_OFFSET + 0x0008))
+#define GPTMCTL		*((volatile uint32_t*)(GPT_OFFSET + 0x000C))
+#define GPTMSYNC	*((volatile uint32_t*)(GPT_OFFSET + 0x0010))
+#define GPTMIMR		*((volatile uint32_t*)(GPT_OFFSET + 0x0018))
+#define GPTMRIS   *((volatile uint32_t*)(GPT_OFFSET + 0x001C))
+#define GPTMMIS   *((volatile uint32_t*)(GPT_OFFSET + 0x0020))
+#define GPTMICR   *((volatile uint32_t*)(GPT_OFFSET + 0x0024))
+#define GPTMTAILR   *((volatile uint32_t*)(GPT_OFFSET + 0x0028))
+#define GPTMTBILR   *((volatile uint32_t*)(GPT_OFFSET + 0x002C))
+#define GPTMTAMATCHR   *((volatile uint32_t*)(GPT_OFFSET + 0x0030))
+#define GPTMTBMATCHR   *((volatile uint32_t*)(GPT_OFFSET + 0x0034))
+#define GPTMTAPR   *((volatile uint32_t*)(GPT_OFFSET + 0x0038))
+#define GPTMTBPR   *((volatile uint32_t*)(GPT_OFFSET + 0x003C))
+#define GPTMTAPMR   *((volatile uint32_t*)(GPT_OFFSET + 0x0040))
+#define GPTMTBPMR  *((volatile uint32_t*)(GPT_OFFSET + 0x0044))
+#define GPTMTAR	  *((volatile uint32_t*)(GPT_OFFSET + 0x0048))
+#define GPTMTBR   *((volatile uint32_t*)(GPT_OFFSET + 0x004C))
+#define GPTMTAV   *((volatile uint32_t*)(GPT_OFFSET + 0x0050))
+#define GPTMTBV   *((volatile uint32_t*)(GPT_OFFSET + 0x0054))
+#define GPTMRTCPD   *((volatile uint32_t*)(GPT_OFFSET + 0x0058))
+#define GPTMTAPS  *((volatile uint32_t*)(GPT_OFFSET + 0x005C))
+#define GPTMTBPS *((volatile uint32_t*)(GPT_OFFSET + 0x0060))
+#define GPTMTAPV  *((volatile uint32_t*)(GPT_OFFSET + 0x0064))
+#define GPTMTBPV  *((volatile uint32_t*)(GPT_OFFSET + 0x0068))
+#define GPTMPP  *((volatile uint32_t*)(GPT_OFFSET + 0x0FC0))
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS
  *********************************************************************************************************************/
@@ -391,8 +530,165 @@ typedef union
     uint32_t R;
     HFAULTHANDL_BF B;
 }HFAULTHANDL_Tag;
+/****************************/
+/**System Control Registers**/
+/****************************/
+/*RCC*/
+typedef struct 
+{
+    uint32_t MOSCDIS    :1;
+    uint32_t            :3;
+    uint32_t OSCSRC     :2;
+    uint32_t XTAL 	    :5;
+    uint32_t BYPASS     :1;
+		uint32_t 						:1;
+		uint32_t PWRDN 			:1;
+		uint32_t 						:3;
+		uint32_t PWMDIV 		:3;
+		uint32_t USEPWMDIV 	:1;
+		uint32_t  					:1;
+		uint32_t USESYSDIV 	:4;
+		uint32_t SYSDIV 		:1;
+		uint32_t ACG 				:1;
+		uint32_t 						:4;
+}RCC_BF;
+typedef union 
+{
+    uint32_t R;
+    RCC_BF B;
+}RCC_Tag;
+/*RCC2*/
+typedef struct 
+{
+    uint32_t            :4;
+    uint32_t OSCSRC2    :3;
+    uint32_t 				    :4;
+    uint32_t BYPASS2    :1;
+		uint32_t 						:1;
+		uint32_t PWRDN2 		:1;
+		uint32_t USBPWRDN		:1;
+		uint32_t 						:7;
+		uint32_t SYSDIV2LSB	:1;
+		uint32_t SYSDIV2		:6;
+		uint32_t 						:1;
+		uint32_t DIV400 		:1;
+		uint32_t USERCC2		:1;
+}RCC2_BF;
+typedef union 
+{
+    uint32_t R;
+    RCC2_BF B;
+}RCC2_Tag;
 
+/*RCGC0*/
+typedef struct 
+{
+    uint32_t            	:3;
+    uint32_t WDT0    			:1;
+    uint32_t 				    	:2;
+    uint32_t HIB    			:1;
+		uint32_t 							:1;
+		uint32_t MAXADC0SPD 	:2;
+		uint32_t MAXADC1SPD		:2;
+		uint32_t 							:4;
+		uint32_t ADC0					:1;
+		uint32_t ADC1					:1;
+		uint32_t 							:2;
+		uint32_t PWM0 				:1;
+		uint32_t  						:1;
+		uint32_t CAN0					:1;
+		uint32_t CAN1					:1;
+		uint32_t 							:1;
+		uint32_t WDT1					:1;
+		uint32_t 							:3;
+}RCGC0_BF;
+typedef union 
+{
+    uint32_t R;
+    RCGC0_BF B;
+}RCGC0_Tag;
 
+/*RCGC1*/
+typedef struct 
+{
+    uint32_t UART0     	:1;
+    uint32_t UART1 			:1;
+    uint32_t UART2    	:1;
+    uint32_t   					:1;
+		uint32_t SSI0				:1;
+		uint32_t SSI1 			:1;
+		uint32_t 						:2;
+		uint32_t QEI0				:1;
+		uint32_t QEI1				:1;
+		uint32_t 						:2;
+		uint32_t I2C0				:1;
+		uint32_t  					:1;
+		uint32_t I2C1 			:1;
+		uint32_t 						:1;
+		uint32_t TIMER0			:1;
+		uint32_t TIMER1			:1;
+		uint32_t TIMER2			:1;
+		uint32_t TIMER3			:1;
+		uint32_t 						:4;
+		uint32_t COMP0			:1;
+		uint32_t COMP1			:1;
+		uint32_t 						:6;
+}RCGC1_BF;
+typedef union 
+{
+    uint32_t R;
+    RCGC1_BF B;
+}RCGC1_Tag;
+
+/*RCGC2*/
+typedef struct 
+{
+    uint32_t GPIOA     	          :1;
+    uint32_t GPIOB 			      :1;
+    uint32_t GPIOC              :1; 
+    uint32_t GPIOD			:1;
+		uint32_t GPIOE			:1;
+		uint32_t GPIOF			:1;
+		uint32_t 						:7;
+		uint32_t UDMA				:1;
+		uint32_t 						:2;
+		uint32_t USB0				:1;
+		uint32_t 						:15;
+}RCGC2_BF;
+typedef union 
+{
+    uint32_t R;
+    RCGC2_BF B;
+}RCGC2_Tag;
+/*RCGCWD*/
+typedef struct 
+{
+    uint32_t R0     	:1;
+    uint32_t R1 		:1;
+	uint32_t		    :30;
+}RCGCWD_BF;
+typedef union 
+{
+    uint32_t R;
+    RCGCWD_BF B;
+}RCGCWD_Tag;
+/******************/
+/** WDT Registers**/
+/******************/
+/*WDTCTL*/
+typedef struct 
+{
+    uint32_t INTEN      	:1;
+    uint32_t RESEN 			:1;
+    uint32_t INTTYPE    	:1;
+    uint32_t    			:28;
+	uint32_t WRC  			:1;
+}WDTCTL_BF;
+typedef union 
+{
+    uint32_t R;
+    WDTCTL_BF B;
+}WDTCTL_Tag;
 #endif /*MC_HW_H*/
 /**********************************************************************************************************************
  *  END OF FILE: Mc_Hw.h

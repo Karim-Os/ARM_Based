@@ -27,7 +27,7 @@
 int main (void)
 {
 	Groups_Cfg(USE_ALL_GROUPS);
-	Interrupt_Set_and_Cfg(GPIO_PORT_B,7);
+	Interrupt_Set_and_Cfg(60,7);
 	Interrupt_Set_and_Cfg(PWM1_GENERATOR3,1);
 	__asm {  
 			SVC	0x05

@@ -2,31 +2,37 @@
 
  *  FILE DESCRIPTION
  *  -------------------------------------------------------------------------------------------------------------------
- *         File:  Std_Types.h
- *       Module:  Contains the standard types 
+ *         File:  Wdt_Types.h
+ *       Module:  -
  *
-*********************************************************************************************************************/
-#ifndef STD_TYPES_H
-#define STD_TYPES_H
+ *  Description:  <Write File DESCRIPTION here>     
+ *  
+ *********************************************************************************************************************/
+#ifndef WDT_TYPES_H
+#define WDT_TYPES_H
 
 /**********************************************************************************************************************
  * INCLUDES
  *********************************************************************************************************************/
+#include "Std_Types.h"
 
 /**********************************************************************************************************************
  *  GLOBAL CONSTANT MACROS
  *********************************************************************************************************************/
-#define TRUE true
-#define FALSE false
-#define ENABLED 1
-#define DISABLED 0
-#define SET 1
-#define CLEAR 0
-#define SUCCESS 0
-#define ERROR		-1
-#ifndef NULL
-#define NULL        ((void*)0)
-#endif
+typedef void (*Wdt_Cb) (void);
+
+typedef enum {
+STANDARD =0,
+NON_MASKABLE
+}enu_InterruptType;
+typedef struct 
+{
+    Wdt_Cb NotificationEN;
+    enu_InterruptType InterruptType;
+    uint32_t WdgInitialTimeout;
+    uint32_t WdgMaxTimeout; 
+}Wdg_ConfigType;
+
 /**********************************************************************************************************************
  *  GLOBAL FUNCTION MACROS
  *********************************************************************************************************************/
@@ -35,21 +41,10 @@
 /**********************************************************************************************************************
  *  GLOBAL DATA TYPES AND STRUCTURES
  *********************************************************************************************************************/
-/*for more information please visit
-* https://www.gnu.org/software/gnu-c-manual/gnu-c-manual.html#Integer-Types
-*/
-typedef unsigned char             uint8_t;
-typedef signed char               sint8_t;
-typedef unsigned int              uint32_t;
-typedef signed int                sint32_t;
-typedef signed int                Std_ReturnType;
-typedef unsigned short            uint16_t;
-typedef signed short              sint16_t;
-typedef signed long long int      sint64_t;
-typedef unsigned long long int    uint64_t;
 
-#endif  /* STD_TYPES_H*/
+
+#endif  /* WDT_TYPES_H */
 
 /**********************************************************************************************************************
- *  END OF FILE: Std_Types.h
+ *  END OF FILE: Wdt_Types.h
  *********************************************************************************************************************/

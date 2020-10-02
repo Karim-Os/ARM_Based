@@ -22,6 +22,7 @@
 /**********************************************************************************************************************
  *  LOCAL DATA 
  *********************************************************************************************************************/
+ //0xE000E000
 #define PRIx(i)	*((volatile uint32_t*)(PER_BASE_ADD+((0x0400+((i/4)*4)))))
 #define ENX(i) *((volatile uint32_t*)(PER_BASE_ADD+0x0100+((i/32)*32)))
 
@@ -62,14 +63,15 @@ void IntCrtl_Init(void)
 	uint32_t temp = 0;
 	/*TODO Configure Grouping\SubGrouping System in APINT register in SCB*/
     //APINT = 0xFA05|g_user_data.groupspriority_config;
-		APINT = 0x05FA0000|(g_user_data.groupspriority_config<<7);  //05FA
+		APINT = VECT_KEY|(g_user_data.groupspriority_config<<7);  //05FA
 		//APINT = 0x00000380;
     /*TODO : Assign Group\Subgroup priority in NVIC_PRIx Nvic and SCB_SYSPRIx Registers*/  
     for(i=0;i<MAX_INTERRUPT;i++)
     {	
 			if(ENABLED == g_user_data.aUSER_DATA[i].B.INT_STATE)
 				{
-			
+			//6 110
+			//11-1  //7
 					 switch (i)
 					{
 							case USAGE_FAULT:
@@ -156,7 +158,7 @@ void IntCrtl_Init(void)
 								}
 								else if(i/32==1)
 								{
-									SET_BIT(EN1,((i-16)%32));
+									SET_BIT(EN1,GET_ENABLE_BIT_OFFSET(i));
 								}
 								else if(i/32 ==2)
 								{
