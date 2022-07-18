@@ -76,12 +76,12 @@ typedef enum
 
 typedef enum
 {
-    PORTA ,
-    PORTB ,
-    PORTC ,
-    PORTD ,
-    PORTE ,
-    PORTF
+    PORTA =0 ,
+    PORTB =1 ,
+    PORTC =2 ,
+    PORTD =3,
+    PORTE =4,
+    PORTF =5
 }Dio_PortType;
 
 typedef struct
@@ -98,7 +98,7 @@ typedef struct
     PortPinInternalAttach Attach;
     PortPinDirection Direction;
     Dio_ChannelType Channel;
-}Port_ConfigType[CONFIGURED_PINS];
+}Port_ConfigType;
 
 
 

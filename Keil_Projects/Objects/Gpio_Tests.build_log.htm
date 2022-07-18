@@ -1,0 +1,115 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.37.0.0
+Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Karim Osama, NA, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.37.0.0
+Toolchain Path:  C:\Keil_v5\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.18
+Assembler:       Armasm.exe V6.18
+Linker/Locator:  ArmLink.exe V6.18
+Library Manager: ArmAr.exe V6.18
+Hex Converter:   FromElf.exe V6.18
+CPU DLL:         SARMCM3.DLL V5.37.0.0
+Dialog DLL:      DCM.DLL V1.17.5.0
+Target DLL:      UL2CM3.DLL V1.164.7.0
+Dialog DLL:      TCM.DLL V1.56.1.0
+ 
+<h2>Project:</h2>
+D:\Work\Repo\ARM_Based\Keil_Projects\Gpio_Tests.uvprojx
+Project File Date:  07/16/2022
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
+Build target 'App_Gpio_Test'
+Note: source file '..\Mcal\IntCtrl_Lcfg.c' - object file renamed from '.\Objects\IntCtrl_Lcfg.o' to '.\Objects\intctrl_lcfg_1.o'.
+../Mcal/IntCtrl.c(33): error: unknown type name 'USER_DATA'
+extern USER_DATA g_user_data;
+       ^
+../Mcal/IntCtrl.c(161): warning: implicit declaration of function 'GET_ENABLE_BIT_OFFSET' is invalid in C99 [-Wimplicit-function-declaration]
+                                                                        SET_BIT(EN1,GET_ENABLE_BIT_OFFSET(i));
+                                                                                    ^
+../Mcal/IntCtrl.c(165): warning: empty expression statement has no effect; remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                                                                        SET_BIT(EN2,((i-16)%32));;
+                                                                                                 ^
+../Mcal/IntCtrl.c(169): warning: empty expression statement has no effect; remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                                                                        SET_BIT(EN3,((i-16)%32));;
+                                                                                                 ^
+../Mcal/IntCtrl.c(173): warning: empty expression statement has no effect; remove unnecessary ';' to silence this warning [-Wextra-semi-stmt]
+                                                                        SET_BIT(EN4,((i-16)%32));;
+                                                                                                 ^
+4 warnings and 1 error generated.
+compiling IntCtrl.c...
+../Mcal/IntCtrl_Lcfg.c(31): warning: suggest braces around initialization of subobject [-Wmissing-braces]
+        {USE_ALL_SUBGROUPS,1},
+                           ^
+                           {}
+../Mcal/IntCtrl_Lcfg.c(32): warning: suggest braces around initialization of subobject [-Wmissing-braces]
+        {USE_ALL_SUBGROUPS,2},
+                           ^
+                           {}
+../Mcal/IntCtrl_Lcfg.c(33): warning: suggest braces around initialization of subobject [-Wmissing-braces]
+        {USE_ALL_SUBGROUPS,3}
+                           ^
+                           {}
+../Mcal/IntCtrl_Lcfg.c(29): warning: no previous extern declaration for non-static variable 'g_user_data' [-Wmissing-variable-declarations]
+User_data_type g_user_data[CFG_INT_NUM]= 
+               ^
+../Mcal/IntCtrl_Lcfg.c(29): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+User_data_type g_user_data[CFG_INT_NUM]= 
+^
+../Mcal/IntCtrl_Lcfg.c(62): error: member reference base type 'User_data_type[3]' is not a structure or union
+        g_user_data.aUSER_DATA[int_num].B.INT_STATE=ENABLED;
+        ~~~~~~~~~~~^~~~~~~~~~~
+../Mcal/IntCtrl_Lcfg.c(63): error: member reference base type 'User_data_type[3]' is not a structure or union
+        g_user_data.aUSER_DATA[int_num].B.PRI_GRP = pri_group;
+        ~~~~~~~~~~~^~~~~~~~~~~
+../Mcal/IntCtrl_Lcfg.c(80): error: member reference base type 'User_data_type[3]' is not a structure or union
+   g_user_data.groupspriority_config = type;
+   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+4 warnings and 3 errors generated.
+compiling IntCtrl_Lcfg.c...
+../Mcu/Mcu.c(16): warning: In file included from...
+../Mcu/Includes\Mcu.h(18): warning: In file included from...
+../Mcu/Includes/Mcu_Types.h(77): warning: #warning is a language extension [-Wpedantic]
+#warning Add Clock Gates Registers
+ ^
+../Mcu/Includes/Mcu_Types.h(77): warning: Add Clock Gates Registers [-W#warnings]
+../Mcu/Mcu.c(110): warning: #warning is a language extension [-Wpedantic]
+    #warning to be implemented
+     ^
+../Mcu/Mcu.c(110): warning: to be implemented [-W#warnings]
+../Mcu/Mcu.c(108): warning: unused parameter 'ClockSetting' [-Wunused-parameter]
+Std_ReturnType Mcu_InitClock( Mcu_ClockType ClockSetting)
+                                            ^
+../Mcu/Mcu.c(112): warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+../Mcu/Mcu.c(127): warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+7 warnings generated.
+compiling Mcu.c...
+".\Objects\Gpio_Tests.axf" - 4 Error(s), 15 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.TM4C_DFP.1.1.0.pack
+                Keil.TM4C_DFP.1.1.0
+                Texas Instruments Tiva C Series Device Support and Examples
+
+<h2>Collection of Component include folders:</h2>
+  C:/Users/lapshop/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123
+
+<h2>Collection of Component Files used:</h2>
+Target not created.
+Build Time Elapsed:  00:00:00
+</pre>
+</body>
+</html>

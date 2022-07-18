@@ -38,7 +38,12 @@
 /*********/
 /**KEYS**/
 /********/
-#define VECT_KEY 0x05FA0000
+#define VECT_KEY (uint32_t)0x05FA0000
+#define VECT_KEY_POS              (16U)
+#define VECT_KEY_MSK              (0xFFFFUL << VECT_KEY_POS)
+
+#define APINT_PRIGROUP_POS             (8U)
+#define APINT_PRIGROUP_MSK             (7UL << APINT_PRIGROUP_POS)
 /*****************/
 /*NVIC Registers */
 /*****************/
@@ -179,13 +184,15 @@
 /**GPIO Registers**/
 /******************/
 #ifdef GPIO_APB
-#define GPIO_PORT_A_OFFSET      0x40004000
-#define GPIO_PORT_B_OFFSET      0x40005000
-#define GPIO_PORT_C_OFFSET      0x40006000
-#define GPIO_PORT_D_OFFSET      0x40007000
-#define GPIO_PORT_E_OFFSET      0x40024000
-#define GPIO_PORT_F_OFFSET      0x40025000
+#define GPIO_OFFSET(x)					(x<4?((0x40004000)+((x)*0x1000)):((0x40024000)+((x-4)*0x1000)))
+//#define GPIO_PORT_A_OFFSET      0x40004000
+//#define GPIO_PORT_B_OFFSET      0x40005000
+//#define GPIO_PORT_C_OFFSET      0x40006000
+//#define GPIO_PORT_D_OFFSET      0x40007000
+//#define GPIO_PORT_E_OFFSET      0x40024000
+//#define GPIO_PORT_F_OFFSET      0x40025000
 #elif GPIO_AHB
+#define GPIO_OFFSET(x)					((0x40058000)+((x)*0x1000))
 #define GPIO_PORT_A_OFFSET      0x40058000
 #define GPIO_PORT_B_OFFSET      0x40059000
 #define GPIO_PORT_C_OFFSET      0x4005A000
@@ -196,26 +203,40 @@
 #error "Please choose a Bus for GPIOs"
 #define GPIO_OFFSET 0x40004000
 #endif 
-#define GPIODATA	*((volatile uint32_t*)(GPIO_OFFSET))	
-#define GPIODIR		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0400))	
-#define GPIOIS		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0404))	
-#define GPIOIBE		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0408))	
-#define GPIOIEV		*((volatile uint32_t*)(GPIO_OFFSET+ 0x040C))	
-#define GPIOIM		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0410))	
-#define GPIORIS		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0414))	
-#define GPIOMIS		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0418))	
-#define GPIOICR		*((volatile uint32_t*)(GPIO_OFFSET+ 0x041C))	
-#define GPIOAFSEL *((volatile uint32_t*)(GPIO_OFFSET+ 0x0420))	
-#define GPIODR2R 	*((volatile uint32_t*)(GPIO_OFFSET+ 0x0500))	
-#define GPIODR4R 	*((volatile uint32_t*)(GPIO_OFFSET+ 0x0504))	
-#define GPIODR8R	*((volatile uint32_t*)(GPIO_OFFSET+ 0x0508))	
-#define GPIOODR 	*((volatile uint32_t*)(GPIO_OFFSET+ 0x050C))	
-#define GPIOPUR		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0510))	
-#define GPIOPDR 	*((volatile uint32_t*)(GPIO_OFFSET+ 0x0514))	
-#define GPIOSLR		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0518))	
-#define GPIODEN 	*((volatile uint32_t*)(GPIO_OFFSET+ 0x051C))	
-#define GPIOLOCK	*((volatile uint32_t*)(GPIO_OFFSET+ 0x0520))	
-#define GPIOCR 		*((volatile uint32_t*)(GPIO_OFFSET+ 0x0524))	
+/*
+¦ GPIO Port A (APB): 0x4000.4000
+¦ GPIO Port A (AHB): 0x4005.8000
+¦ GPIO Port B (APB): 0x4000.5000
+¦ GPIO Port B (AHB): 0x4005.9000
+¦ GPIO Port C (APB): 0x4000.6000
+¦ GPIO Port C (AHB): 0x4005.A000
+¦ GPIO Port D (APB): 0x4000.7000
+¦ GPIO Port D (AHB): 0x4005.B000
+¦ GPIO Port E (APB): 0x4002.4000
+¦ GPIO Port E (AHB): 0x4005.C000
+¦ GPIO Port F (APB): 0x4002.5000
+¦ GPIO Port F (AHB): 0x4005.D000
+*/
+#define GPIODATA(x)	*((volatile uint32_t*)(GPIO_OFFSET(x)))	
+#define GPIODIR(x)	*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0400))	
+#define GPIOIS(x)		*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0404))	
+#define GPIOIBE(x)		*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0408))	
+#define GPIOIEV(x)		*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x040C))	
+#define GPIOIM(x)		*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0410))	
+#define GPIORIS(x)		*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0414))	
+#define GPIOMIS(x)		*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0418))	
+#define GPIOICR(x)		*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x041C))	
+#define GPIOAFSEL(x) *((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0420))	
+#define GPIODR2R(x) 	*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0500))	
+#define GPIODR4R(x) 	*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0504))	
+#define GPIODR8R(x)	*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0508))	
+#define GPIOODR(x) 	*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x050C))	
+#define GPIOPUR(x)		*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0510))	
+#define GPIOPDR(x) 	*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0514))	
+#define GPIOSLR(x)		*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0518))	
+#define GPIODEN(x) 	*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x051C))	
+#define GPIOLOCK(x)	*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0520))	
+#define GPIOCR(x)		*((volatile uint32_t*)(GPIO_OFFSET(x)+ 0x0524))	
 	
 /******************/
 /** WDT Registers**/

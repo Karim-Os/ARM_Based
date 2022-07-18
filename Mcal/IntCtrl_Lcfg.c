@@ -14,6 +14,7 @@
  *********************************************************************************************************************/
 #include "Std_Types.h"
 #include "IntCtrl_Lcfg.h"
+#include "IntCtrl.h"
 /**********************************************************************************************************************
 *  LOCAL MACROS CONSTANT\FUNCTION
 *********************************************************************************************************************/
@@ -26,11 +27,17 @@
  *  GLOBAL DATA
  *********************************************************************************************************************/
 /*Container for User Data*/
-USER_DATA g_user_data= 
+const User_data_type g_user_data = 
 {
-	//Set the Groups - Sub Groups
-	aUSER_DATA[0]=
-}
+	.groupspriority_config = USE_2_GROUPS_4_SUBGROUPS,
+	
+	.Int_Cfg[0].Interrupt_idx = GPIOA_IRQ,
+	.Int_Cfg[0].Group_Prio = GROUP_PRIO_0,
+	.Int_Cfg[0].Sub_Group_Prio = SUB_GROUP_PRIO_1,
+	
+	.Int_Cfg[1] = {GPIOB_IRQ,GROUP_PRIO_1,SUB_GROUP_PRIO_1},
+	.Int_Cfg[2] = {GPIOC_IRQ,GROUP_PRIO_1,SUB_GROUP_PRIO_0},
+};
 /**********************************************************************************************************************
  *  LOCAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/

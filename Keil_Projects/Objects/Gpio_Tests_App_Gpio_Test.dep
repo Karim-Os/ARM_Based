@@ -1,0 +1,53 @@
+Dependencies for Project 'Gpio_Tests', Target 'App_Gpio_Test': (DO NOT MODIFY !)
+CompilerVersion: 6180000::V6.18::ARMCLANG
+F (.\Gpio_App.c)(0x62D23908)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Common -I ../Gpio/Includes -I ../Mcal/Includes -I ../Mcu/Includes -I ../Gpt/Includes -I ../Mcal/Includes-IC:/Users/lapshop/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-D__UVISION_VERSION="537" -DTM4C123GE6PM -DGPIO_APB-o ./objects/gpio_app.o -MD)
+I (..\Gpio\Includes\Gpio.h)(0x62D237B0)
+I (..\Common\Std_Types.h)(0x62D22CA2)
+I (..\Gpio\Includes\Gpio_Types.h)(0x62D23C04)
+I (..\Common\Mc_Hw.h)(0x62D23D2A)
+I (..\Gpio\Includes\Gpio_Lcfg.h)(0x62D278E3)
+F (..\Gpio\Gpio.c)(0x62D23EF9)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Common -I ../Gpio/Includes -I ../Mcal/Includes -I ../Mcu/Includes -I ../Gpt/Includes -I ../Mcal/Includes-IC:/Users/lapshop/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-D__UVISION_VERSION="537" -DTM4C123GE6PM -DGPIO_APB-o ./objects/gpio.o -MD)
+I (..\Common\Std_Types.h)(0x62D22CA2)
+I (..\Gpio\Includes\Gpio.h)(0x62D237B0)
+I (..\Gpio\Includes\Gpio_Types.h)(0x62D23C04)
+I (..\Common\Mc_Hw.h)(0x62D23D2A)
+I (..\Gpio\Includes\Gpio_Lcfg.h)(0x62D278E3)
+I (..\Common\Common.h)(0x62D22CA2)
+F (..\Mcu\Mcu.c)(0x62D22CA2)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Common -I ../Gpio/Includes -I ../Mcal/Includes -I ../Mcu/Includes -I ../Gpt/Includes -I ../Mcal/Includes-IC:/Users/lapshop/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-D__UVISION_VERSION="537" -DTM4C123GE6PM -DGPIO_APB-o ./objects/mcu.o -MD)
+I (..\Common\Std_Types.h)(0x62D22CA2)
+I (..\Mcu\Includes\Mcu.h)(0x62D22CA2)
+I (..\Mcu\Includes\Mcu_Types.h)(0x62D27B27)
+I (..\Common\Mc_Hw.h)(0x62D23D2A)
+I (..\Mcu\Includes\Mcu_Lcfg.h)(0x62D22CA2)
+I (..\Common\Common.h)(0x62D22CA2)
+F (..\Mcal\IntCtrl.c)(0x62D22CA2)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Common -I ../Gpio/Includes -I ../Mcal/Includes -I ../Mcu/Includes -I ../Gpt/Includes -I ../Mcal/Includes-IC:/Users/lapshop/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-D__UVISION_VERSION="537" -DTM4C123GE6PM -DGPIO_APB-o ./objects/intctrl.o -MD)
+I (..\Common\Std_Types.h)(0x62D22CA2)
+I (..\Mcal\Includes\IntCtrl.h)(0x62D22CA2)
+I (..\Mcal\Includes\IntCtrl_Types.h)(0x62D22CA2)
+I (..\Common\Mc_Hw.h)(0x62D23D2A)
+I (..\Mcal\Includes\IntCtrl_Lcfg.h)(0x62D2794C)
+I (..\Common\Common.h)(0x62D22CA2)
+F (..\Gpt\Gpt.c)(0x62D22CA2)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Common -I ../Gpio/Includes -I ../Mcal/Includes -I ../Mcu/Includes -I ../Gpt/Includes -I ../Mcal/Includes-IC:/Users/lapshop/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-D__UVISION_VERSION="537" -DTM4C123GE6PM -DGPIO_APB-o ./objects/gpt.o -MD)
+I (..\Common\Std_Types.h)(0x62D22CA2)
+I (..\Gpt\Includes\Gpt.h)(0x62D22CA2)
+I (..\Gpt\Includes\Gpt_Types.h)(0x62D22CA2)
+I (..\Common\Mc_Hw.h)(0x62D23D2A)
+I (..\Gpt\Includes\Gpt_Lcfg.h)(0x62D22CA2)
+I (..\Common\Common.h)(0x62D22CA2)
+F (..\Adc\Adc.c)(0x62D22CA2)()
+F (..\Wdt\Wdt.c)(0x62D22CA2)()
+F (..\Adc\Adc_Lcfg.c)(0x62D22CA2)()
+F (..\Gpio\Gpio_Lcfg.c)(0x62D27A44)()
+I (..\Common\Std_Types.h)(0x62D22CA2)
+I (..\Mcal\Includes\IntCtrl_Lcfg.h)(0x62D2794C)
+I (..\Gpio\Includes\Gpio_Lcfg.h)(0x62D278E3)
+F (..\Gpt\Gpt_Lcfg.c)(0x62D22CA2)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Common -I ../Gpio/Includes -I ../Mcal/Includes -I ../Mcu/Includes -I ../Gpt/Includes -I ../Mcal/Includes-IC:/Users/lapshop/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-D__UVISION_VERSION="537" -DTM4C123GE6PM -DGPIO_APB-o ./objects/gpt_lcfg_1.o -MD)
+I (..\Common\Std_Types.h)(0x62D22CA2)
+I (..\Mcal\Includes\IntCtrl_Lcfg.h)(0x62D2794C)
+F (..\Mcal\IntCtrl_Lcfg.c)(0x62D279E3)(-xc -std=c99 --target=arm-arm-none-eabi -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -c-fno-rtti -funsigned-char -fshort-enums -fshort-wchar-D__EVAL -gdwarf-4 -O0 -ffunction-sections -Weverything -Wno-packed -Wno-reserved-id-macro -Wno-unused-macros -Wno-documentation-unknown-command -Wno-documentation -Wno-license-management -Wno-parentheses-equality -Wno-reserved-identifier -I ../Common -I ../Gpio/Includes -I ../Mcal/Includes -I ../Mcu/Includes -I ../Gpt/Includes -I ../Mcal/Includes-IC:/Users/lapshop/AppData/Local/Arm/Packs/Keil/TM4C_DFP/1.1.0/Device/Include/TM4C123-D__UVISION_VERSION="537" -DTM4C123GE6PM -DGPIO_APB-o ./objects/intctrl_lcfg_1.o -MD)
+I (..\Common\Std_Types.h)(0x62D22CA2)
+I (..\Mcal\Includes\IntCtrl_Lcfg.h)(0x62D2794C)
+F (..\Mcu\Mcu_Lcfg.c)(0x62D2789A)()
+I (..\Common\Std_Types.h)(0x62D22CA2)
+I (..\Mcal\Includes\IntCtrl_Lcfg.h)(0x62D2794C)
+F (..\Wdt\Wdt_Lcfg.c)(0x62D22CA2)()

@@ -74,6 +74,12 @@ typedef enum
     FREQ_25_MHZ   = 0x1A
 }Freq_Vale_Type; 
 
+#warning Add Clock Gates Registers
+typedef enum 
+{
+INVALID =0xFF,
+}Mcu_Peripheral_ClockType;
+
 typedef enum
 {
 EXT = 1<<EXT_MASK,
@@ -87,7 +93,7 @@ MOSCFAIL = 1<<MOSCFAIL_MASK
 
 typedef struct 
 {
-Mcu_Peripheral_ClockType Clock_Source;
+Mcu_Peripheral_ClockType Clock_Type;
 Mcu_Clock_src_Type Clock_Source;
 }Mcu_ClockType;
 
@@ -97,12 +103,6 @@ uint8_t PllUSe;
 Freq_Vale_Type Freq;
 Mcu_ClockType Clock;
 }Mcu_ConfigType;
-
-#warning Add Clock Gates Registers
-typedef enum 
-{
-INVALID =0xFF,
-}Mcu_Peripheral_ClockType;
 
 
 

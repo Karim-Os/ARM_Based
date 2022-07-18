@@ -22,7 +22,7 @@
 /**********************************************************************************************************************
  *  LOCAL DATA 
  *********************************************************************************************************************/
-
+extern const uint32_t x;
 /**********************************************************************************************************************
  *  GLOBAL DATA
  *********************************************************************************************************************/
@@ -55,41 +55,42 @@ void Port_Init ( const Port_ConfigType* ConfigPtr )
 {
     for (uint8_t i =0 ; i< CONFIGURED_PINS ; i++)
     {
-            #warning Adjust Port Offset 
+        /*TODO: add a config for Clocking the GPIO*/
+        /*TODO: add interrupt handling if needed*/
                 /*Setting Direction*/
-                GPIODIR |= ((ConfigPtr[i]->Direction)>>ConfigPtr[i]->Channel.Pin);
+                GPIODIR(ConfigPtr[i].Channel.Port) |= ((ConfigPtr[i].Direction)>>ConfigPtr[i].Channel.Pin);
                 /*Setting Attach Resistor*/
-                if (ConfigPtr[i]->Attach == PULL_DOWN)
+                if (ConfigPtr[i].Attach == PULL_DOWN)
                 {
-                    GPIOPUR |= (1>>ConfigPtr[i]->Channel.Pin);
+                    GPIOPUR(ConfigPtr[i].Channel.Port) |= (1>>ConfigPtr[i].Channel.Pin);
 
                 }
-                else if (ConfigPtr[i]->Attach == PULL_UP)
+                else if (ConfigPtr[i].Attach == PULL_UP)
                 {
-                    GPIOPDR |= (1>>ConfigPtr[i]->Channel.Pin);
+                    GPIOPDR(ConfigPtr[i].Channel.Port) |= (1>>ConfigPtr[i].Channel.Pin);
                 }
-                else if (ConfigPtr[i]->Attach == OPEN_DRAIN)
+                else if (ConfigPtr[i].Attach == OPEN_DRAIN)
                 {
-                    GPIOODR |= (1>>ConfigPtr[i]->Channel.Pin);
+                    GPIOODR(ConfigPtr[i].Channel.Port) |= (1>>ConfigPtr[i].Channel.Pin);
                 }
                 /*Setting Attach Output Current*/
-                if (ConfigPtr[i]->Current == R2R)
+                if (ConfigPtr[i].Current == R2R)
                 {
-                    GPIODR2R |= (1>>ConfigPtr[i]->Channel.Pin);
+                    GPIODR2R(ConfigPtr[i].Channel.Port) |= (1>>ConfigPtr[i].Channel.Pin);
 
                 }
-                else if (ConfigPtr[i]->Current == R4R)
+                else if (ConfigPtr[i].Current == R4R)
                 {
-                    GPIODR4R |= (1>>ConfigPtr[i]->Channel.Pin);
+                    GPIODR4R(ConfigPtr[i].Channel.Port) |= (1>>ConfigPtr[i].Channel.Pin);
                 }
-                else if (ConfigPtr[i]->Current == R8R)
+                else if (ConfigPtr[i].Current == R8R)
                 {
-                    GPIODR8R |= (1>>ConfigPtr[i]->Channel.Pin);
+                    GPIODR8R(ConfigPtr[i].Channel.Port) |= (1>>ConfigPtr[i].Channel.Pin);
                 }
                 /*Setting Pin Mode*/
-                GPIOAFSEL |= ((ConfigPtr[i]->Mode)>>ConfigPtr[i]->Channel.Pin);
+                GPIOAFSEL(ConfigPtr[i].Channel.Port) |= ((ConfigPtr[i].Mode)>>ConfigPtr[i].Channel.Pin);
                 /* Setting PortPinLevelValue */
-                GPIODATA |= ((ConfigPtr[i]->Value)>>ConfigPtr[i]->Channel.Pin);
+                GPIODATA(ConfigPtr[i].Channel.Port) |= ((ConfigPtr[i].Value)>>ConfigPtr[i].Channel.Pin);
     }
 
 }
@@ -107,10 +108,8 @@ void Port_Init ( const Port_ConfigType* ConfigPtr )
 *******************************************************************************/
 Dio_LevelType Dio_ReadChannel (Dio_ChannelType ChannelId)
 {   
-#warning Use atomic operation instead of read modify write , GPIO Ports
- return (GET( GPIODATA,ChannelId.Pin));
+ return (GET_BIT( GPIODATA(ChannelId.Port),ChannelId.Pin));
 }
-
 
 /******************************************************************************
 * \Syntax          : void Dio_WriteChannel (Dio_ChannelType ChannelId, Dio_LevelType Level)                               
@@ -125,14 +124,13 @@ Dio_LevelType Dio_ReadChannel (Dio_ChannelType ChannelId)
 *******************************************************************************/
 void Dio_WriteChannel (Dio_ChannelType ChannelId, Dio_LevelType Level)
 {
-    #warning Use atomic operation instead of read modify write , GPIO Ports
     if (LOW == Level)
     {
-        CLEAR_BIT(GPIODATA,ChannelId.Pin);
+        CLEAR_BIT(GPIODATA(ChannelId.Port),ChannelId.Pin);
     }
     else
     {
-        SET_BIT(GPIODATA,ChannelId.Pin);
+        SET_BIT(GPIODATA(ChannelId.Port),ChannelId.Pin);
     }
 
 }
@@ -149,9 +147,7 @@ void Dio_WriteChannel (Dio_ChannelType ChannelId, Dio_LevelType Level)
 *******************************************************************************/
 Dio_PortLevelType Dio_ReadPort (Dio_PortType PortId)
 {
-    #warning Use atomic operation instead of read modify write , GPIO Ports
-    return GPIODATA;
-
+    return GPIODATA(PortId);
 }
 
 /******************************************************************************
@@ -167,8 +163,7 @@ Dio_PortLevelType Dio_ReadPort (Dio_PortType PortId)
 *******************************************************************************/
 void Dio_WritePort (Dio_PortType PortId, Dio_PortLevelType Level)
 {
-    #warning GPIO PORT Offset
-    GPIODATA = Level;
+    GPIODATA(PortId) = Level;
 }
 
 /******************************************************************************
@@ -183,8 +178,8 @@ void Dio_WritePort (Dio_PortType PortId, Dio_PortLevelType Level)
 *******************************************************************************/
 Dio_LevelType Dio_FlipChannel (Dio_ChannelType ChannelId)
 {
-    #warning GPIO PORT Offset
-    TOGGLE_BIT(GPIODATA,ChannelId.Pin);
+  TOGGLE_BIT(GPIODATA(ChannelId.Port),ChannelId.Pin);
+	return Dio_ReadChannel(ChannelId);
 }
 
 

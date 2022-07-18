@@ -1,24 +1,33 @@
+/****************************************************************************/
+/** Copyright (c) 2020 Mahmoud Kassify. All Rights Reserved. 			   **/
+/****************************************************************************/
+
 /**********************************************************************************************************************
  *  FILE DESCRIPTION
  *  -----------------------------------------------------------------------------------------------------------------*/
-/**        \file  Gpio_Lcfg.c
- *        \brief  Represents the Dynamic Part "user-defined" of Interrupt Controller
+/**        \file  main.c
+ *        \brief  This file is an example for Add a variable in a specific section in the ROM/RAM.
  *
  *      \details  
  *
  *
  *********************************************************************************************************************/
-
 /**********************************************************************************************************************
  *  INCLUDES
  *********************************************************************************************************************/
-#include "Std_Types.h"
-#include "IntCtrl_Lcfg.h"
-#include "Gpio_Lcfg.h"
+#include <stdint.h>
 /**********************************************************************************************************************
 *  LOCAL MACROS CONSTANT\FUNCTION
 *********************************************************************************************************************/
-const uint32_t x = 15;
+#define COMPILER_ATTRIBUTE              (1)                                         /** @brief: Enable Compiler arrtribue or not*/
+
+#if defined(COMPILER_ATTRIBUTE) && (COMPILER_ATTRIBUTE == 1)
+    #define SPRINTS_SECTION             __attribute__((section(".sprints")))        /** @brief: Compiler attribute puts the variable in .sprints section*/    
+#else
+    #define SPRINTS_SECTION
+#endif
+
+#define ARR_SIZE                        (6)                                        /** @brief: The size of the global array*/
 /**********************************************************************************************************************
  *  LOCAL DATA 
  *********************************************************************************************************************/
@@ -26,12 +35,10 @@ const uint32_t x = 15;
 /**********************************************************************************************************************
  *  GLOBAL DATA
  *********************************************************************************************************************/
-/*Container for User Data*/
-User_data_type g_user_data[2]; 
-{
-	{USE_ALL_SUBGROUPS,5},
-	{USE_ALL_SUBGROUPS,7}
-};
+SPRINTS_SECTION uint8_t     gu8MainArray[ARR_SIZE] = {1};                      /** @brief: Global variable array should be declared in a defined section in Flash*/
+SPRINTS_SECTION uint32_t    gu32MainVar = 0;                                   /** @brief: Global variable should be declared in a defined section in Flash*/
+
+uint8_t gu8MainTempVar = 0;                                                    /** @brief: Global variable should be declared in the default place*/ 
 /**********************************************************************************************************************
  *  LOCAL FUNCTION PROTOTYPES
  *********************************************************************************************************************/
@@ -44,42 +51,24 @@ User_data_type g_user_data[2];
  *  GLOBAL FUNCTIONS
  *********************************************************************************************************************/
 
-
-/******************************************************************************
-* \Syntax          : void Interrupt_Set_and_Cfg(uint8_t int_num,uint8_t pri_group)
-* \Description     : Takes the input arguments and enable their exception     
-* \Sync\Async      : Synchronous                                               
-* \Reentrancy      : Non Reentrant                                             
-* \Parameters (in) : int_num     Exception Number in vector Table index                                                       
-* \Parameters (in) : pri_group   group priority for this Exception                                                       
-*******************************************************************************/
-
-
-void Interrupt_Set_and_Cfg(uint8_t int_num,uint8_t pri_group)
-{
-    if((int_num < MAX_INTERRUPT) || (pri_group < MAX_PRI_GROUP_VAL) )
+uint32_t main(void)
+{    
+    if(1 == gu8MainArray[0])
     {
-        g_user_data[int_num].B.INT_STATE = ENABLED;
-        g_user_data[int_num].B.PRI_GRP = pri_group;
+        gu8MainTempVar = 0;
     }
     else
     {
-//        printf("Invalid Arguments, Func %s, line %d \r\n",__func__ , __LINE__);
+        gu8MainTempVar = 4;
     }
+
+    for(;;);
     
-}
-/******************************************************************************
-* \Syntax          : void Groups_Cfg(Group_SubgroupType type)        
-* \Description     : Set the Groups-Sub-Groups Priorities                                                         
-* \Sync\Async      : Synchronous                                               
-* \Reentrancy      : Reentrant                                             
-* \Parameters (in) : type   Group-Subgroup set, please refer to Group_SubgroupType for more info                                                       
-*******************************************************************************/
-void Groups_Cfg(Group_SubgroupType type)
-{
-   g_user_data.groupspriority_config = type ;
+    return 0;
 }
 
 /**********************************************************************************************************************
- *  END OF FILE: IntCtrl_Lcfg.c
+ *  END OF FILE: main.c
  *********************************************************************************************************************/
+
+
